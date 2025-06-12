@@ -40,7 +40,8 @@ p {
   padding-block: 5px;
   font-weight: bold;
   font-size: 16px;
-  margin-top: 15px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .read-more {
@@ -69,7 +70,8 @@ p {
   padding-block: 5px;
   font-weight: bold;
   font-size: 16px;
-  margin-top: 23px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .button-download-pdf {
@@ -99,7 +101,7 @@ p {
   font-weight: bold;
   font-size: 16px;
   margin-top: 15px;
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 }
 
 .menu-style {
@@ -112,11 +114,6 @@ p {
   justify-content: start;
   align-items: center;
   gap: 12px;
-}
-
-.icon {
-  font-size: 20px;
-  color: #5b5b5b;
 }
 
 h3 {
@@ -186,7 +183,6 @@ input:focus {
   margin-top: 40px;
 }
 .kotak {
-  border: #f83a3d 1px solid;
   width: 538px;
   height: 397px;
   margin-top: 5px;
@@ -194,9 +190,16 @@ input:focus {
 
 .kotak-komentar {
   width: 1083px;
-  height: 397px;
-  border: #f83a3d 1px solid;
+  height: fit-content;
+  /* border: #f83a3d 1px solid; */
   margin-top: 5px;
+  padding: 20px;
+
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }
 
 .daftar-komentar {
@@ -280,6 +283,13 @@ input:focus {
 /* } */
 
 input {
+  margin-top: 5px;
+  width: 900px;
+  height: 40px;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   margin-bottom: 3px;
   width: 100%;
   padding: 3px 16px;
@@ -338,9 +348,175 @@ input::placeholder {
   font-weight: 600;
   text-decoration: none;
 }
-@media (max-width: 640px) {
+
+#cari-konten {
+  margin-top: 30px;
+  width: 900px;
+  height: 40px;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+/* sentimen list */
+.comment-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.wordcloud-sentiment {
+  display: flex;
+  gap: 7px;
+}
+
+.isi {
+  flex-direction: column;
+  border: yellowgreen 1px solid;
+  flex-wrap: wrap;
+  width: 356px;
+  height: 100px;
+  margin-top: 5px;
+  margin-bottom: 50px;
+}
+
+.scroll {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* Untuk browser berbasis Webkit (Chrome, Edge, Safari) */
+.scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.video-list {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0;
+  list-style: none;
+  /* justify-content: center; */
+}
+
+.video-card {
+  flex: 1 1 calc(33.333% - 20px); /* 3 per row */
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 12px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 300px;
+  width: 100%;
+  transition: box-shadow 0.3s ease;
+}
+
+.video-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.video-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.video-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  /* text-align: center; */
+}
+
+.video-card button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #f83a3d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.video-card button:hover {
+  background-color: #d32f2f;
+  transition: background-color 0.3s ease;
+}
+
+ul{
+  list-style: none;
+}
+
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
   .left {
-    position: absolute;
-    left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .heading {
+    font-size: 28px;
+    width: auto;
+  }
+
+  .sub-heading {
+    font-size: 22px;
+  }
+
+  .container-hasil {
+    flex-direction: column;
+  }
+
+  .kotak, .kotak-komentar, .konten-teratas, .isi-konten-teratas {
+    width: 100%;
+  }
+
+  .video-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .login-form {
+    width: 90%;
+  }
+
+  input {
+    max-width: 100%;
+  }
+
+  #cari-konten {
+    width: 100%;
+  }
+
+  .wordcloud-sentiment {
+    flex-direction: column;
+  }
+
+  .isi {
+    width: 100%;
   }
 }
