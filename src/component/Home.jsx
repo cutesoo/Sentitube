@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from "react";
 import SentimentList from "./SentimentList";
 import Barchart from "./Barchart";
 import Piechart from "./Piechart";
-import WordCloudFromComments from "./WordCloudComments";
 
 export default function Home({
   searchVideo,

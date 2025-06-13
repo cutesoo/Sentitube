@@ -132,19 +132,19 @@ export default function Analysis({ postLink, ResultAnalysis }) {
               <div>
                 <p>Positif</p>
                 <div className="isi">
-                  <WordCloudComponent words={positiveWords} />
+                  <WordCloudComponent className="wordscloud" words={positiveWords} />
                 </div>
               </div>
               <div>
                 <p>Negatif</p>
                 <div className="isi">
-                  <WordCloudComponent words={negativeWords} />
+                  <WordCloudComponent className="wordscloud" words={negativeWords} />
                 </div>
               </div>
               <div>
                 <p>Netral</p>
                 <div className="isi">
-                  <WordCloudComponent words={netralWords} />
+                  <WordCloudComponent className="wordscloud" words={netralWords} />
                 </div>
               </div>
               <button className="button-download-pdf">Download PDF</button>

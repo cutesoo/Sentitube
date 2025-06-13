@@ -3,10 +3,11 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recha
 
 // Warna tetap sesuai urutan sentimen: Positif, Netral, Negatif
 const COLORS = {
-  positif: '#79AC78',
-  negatif: '#AF3E3E',
-  netral: '#FF8042'
+  positif: '#82ca9d',
+  negatif: '#ff6666',
+  netral: '#ffc658'
 };
+
 
 export default class Piechart extends PureComponent {
   render() {
