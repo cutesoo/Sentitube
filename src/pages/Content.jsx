@@ -10,6 +10,7 @@ export default function Content() {
   const [resultSource, setResultSource] = useState("local"); // "local" or "byId"
   const [videoResults, setVideoResults] = useState([]);
   const navigate = useNavigate();
+const [activeMenu, setActiveMenu] = useState("Home");
 
   useEffect(() => {
     const username = localStorage.getItem("username");
@@ -22,7 +23,7 @@ export default function Content() {
   const postLink = async (data) => {
     try {
       const response = await fetch(
-        "https://cec8-2402-5680-8101-840b-adf4-4372-c83d-95f9.ngrok-free.app/scrape_comments",
+        "https://7740-157-10-185-252.ngrok-free.app/scrape_comments",
         {
           method: "POST",
           headers: {
@@ -47,6 +48,14 @@ export default function Content() {
           [videoId]: resultData.comments,
         }));
       }
+      const previousHistory = JSON.parse(localStorage.getItem("history")) || [];
+      const newEntry = {
+        video_url: data.video_url,
+        timestamp: new Date().toISOString(),
+        summary: resultData.summary || "Hasil ringkasan tidak tersedia", // optional
+      };
+      const updatedHistory = [newEntry, ...previousHistory];
+      localStorage.setItem("history", JSON.stringify(updatedHistory));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -56,7 +65,7 @@ export default function Content() {
   const getResultById = async (id) => {
     try {
       const response = await fetch(
-        `https://cec8-2402-5680-8101-840b-adf4-4372-c83d-95f9.ngrok-free.app/result/${id}`
+        `https://f8c4-157-10-185-252.ngrok-free.app/scrape_comments/result/${id}`
       );
       const data = await response.json();
       setResultById((prev) => ({
@@ -73,7 +82,7 @@ export default function Content() {
   const handleSearchVideo = async (searchQuery) => {
     try {
       const response = await fetch(
-        "https://cec8-2402-5680-8101-840b-adf4-4372-c83d-95f9.ngrok-free.app/search_videos",
+        "https://7740-157-10-185-252.ngrok-free.app/search_videos",
         {
           method: "POST",
           headers: {
@@ -97,14 +106,14 @@ export default function Content() {
 
   return (
     <>
-      <Header onMenu={onMenu} setOnMenu={setOnMenu} />
+      <Header onMenu={onMenu} setOnMenu={setOnMenu} setActiveMenu={setActiveMenu} />
       <Main
         onMenu={onMenu}
         postLink={postLink}
         ResultAnalysis={selectedResult}
         getResultById={getResultById}
         searchVideo={handleSearchVideo}
-        videoResults={videoResults}
+        videoResults={videoResults}activeMenu={activeMenu}
       />
     </>
   );

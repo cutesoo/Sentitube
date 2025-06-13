@@ -3,6 +3,8 @@ import SentimentList from "./SentimentList";
 import Barchart from "./Barchart";
 import Piechart from "./Piechart";
 import WordCloudComponent from "./WordCloudComponent";
+import PdfExport from "./PdfExport";
+
 
 export default function Analysis({ postLink, ResultAnalysis }) {
   const [url, setUrl] = useState("");
@@ -132,22 +134,35 @@ export default function Analysis({ postLink, ResultAnalysis }) {
               <div>
                 <p>Positif</p>
                 <div className="isi">
-                  <WordCloudComponent className="wordscloud" words={positiveWords} />
+                  <WordCloudComponent
+                    className="wordscloud"
+                    words={positiveWords}
+                  />
                 </div>
               </div>
               <div>
                 <p>Negatif</p>
                 <div className="isi">
-                  <WordCloudComponent className="wordscloud" words={negativeWords} />
+                  <WordCloudComponent
+                    className="wordscloud"
+                    words={negativeWords}
+                  />
                 </div>
               </div>
               <div>
                 <p>Netral</p>
                 <div className="isi">
-                  <WordCloudComponent className="wordscloud" words={netralWords} />
+                  <WordCloudComponent
+                    className="wordscloud"
+                    words={netralWords}
+                  />
                 </div>
               </div>
-              <button className="button-download-pdf">Download PDF</button>
+              {/* <button className="button-download-pdf">Download PDF</button> */}
+              <PdfExport
+                analyzedComments={ResultAnalysis}
+                wordcloudImageURL="/wordcloud-example.png"
+              />
             </div>
           </div>
         </div>

@@ -552,6 +552,35 @@ isi {
   height: 100% !important;
 }
 
+.konten-teratas {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.konten-teratas:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.konten-teratas p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.konten-teratas a {
+  color: #007bff;
+  text-decoration: none;
+  word-break: break-word;
+}
+
+.konten-teratas a:hover {
+  text-decoration: underline;
+}
 
 
 @media (max-width: 768px) {
