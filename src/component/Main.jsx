@@ -4,7 +4,7 @@ import { useState } from "react";
 import Home from "./Home";
 import Analysis from "./Analysis";
 import History from "./History";
-
+import PdfExport from "./PdfExport";
 export default function Main({
   onMenu,
   postLink,
