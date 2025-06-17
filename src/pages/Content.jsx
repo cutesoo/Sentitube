@@ -23,7 +23,7 @@ const [activeMenu, setActiveMenu] = useState("Home");
   const postLink = async (data) => {
     try {
       const response = await fetch(
-        "https://7740-157-10-185-252.ngrok-free.app/scrape_comments",
+        "https://sentitube-yt-api-af7bd4046ea2.herokuapp.com/scrape_comments",
         {
           method: "POST",
           headers: {
@@ -65,7 +65,7 @@ const [activeMenu, setActiveMenu] = useState("Home");
   const getResultById = async (id) => {
     try {
       const response = await fetch(
-        `https://f8c4-157-10-185-252.ngrok-free.app/scrape_comments/result/${id}`
+        `https://sentitube-yt-api-af7bd4046ea2.herokuapp.com/scrape_comments/result/${id}`
       );
       const data = await response.json();
       setResultById((prev) => ({
@@ -82,7 +82,7 @@ const [activeMenu, setActiveMenu] = useState("Home");
   const handleSearchVideo = async (searchQuery) => {
     try {
       const response = await fetch(
-        "https://7740-157-10-185-252.ngrok-free.app/search_videos",
+        "https://sentitube-yt-api-af7bd4046ea2.herokuapp.com/search_videos",
         {
           method: "POST",
           headers: {
