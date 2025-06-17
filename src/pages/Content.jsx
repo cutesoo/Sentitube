@@ -5,12 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function Content() {
   const [onMenu, setOnMenu] = useState(true);
-  const [resultLocal, setResultLocal] = useState([]);
-  const [resultById, setResultById] = useState([]);
-  const [resultSource, setResultSource] = useState("local"); // "local" or "byId"
+  const [resultById, setResultById] = useState({});
   const [videoResults, setVideoResults] = useState([]);
   const navigate = useNavigate();
-const [activeMenu, setActiveMenu] = useState("Home");
+  const [activeMenu, setActiveMenu] = useState("Home");
 
   useEffect(() => {
     const username = localStorage.getItem("username");
@@ -33,11 +31,8 @@ const [activeMenu, setActiveMenu] = useState("Home");
         }
       );
 
-      const resultData = await response.json(); // Ambil response sebagai JSON
-      setResultLocal(resultData.comments); // Simpan komentar di resultLocal
-      setResultSource("local"); // Tandai sumber data
+      const resultData = await response.json();
 
-      // Ambil ID dari URL dan simpan juga ke resultById agar keduanya bisa dipakai
       const videoUrl = data.video_url;
       const videoIdMatch = videoUrl.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
       const videoId = videoIdMatch ? videoIdMatch[1] : null;
@@ -47,15 +42,16 @@ const [activeMenu, setActiveMenu] = useState("Home");
           ...prev,
           [videoId]: resultData.comments,
         }));
+
+        const previousHistory = JSON.parse(localStorage.getItem("history")) || [];
+        const newEntry = {
+          video_url: data.video_url,
+          timestamp: new Date().toISOString(),
+          summary: resultData.summary || "Hasil ringkasan tidak tersedia",
+        };
+        const updatedHistory = [newEntry, ...previousHistory];
+        localStorage.setItem("history", JSON.stringify(updatedHistory));
       }
-      const previousHistory = JSON.parse(localStorage.getItem("history")) || [];
-      const newEntry = {
-        video_url: data.video_url,
-        timestamp: new Date().toISOString(),
-        summary: resultData.summary || "Hasil ringkasan tidak tersedia", // optional
-      };
-      const updatedHistory = [newEntry, ...previousHistory];
-      localStorage.setItem("history", JSON.stringify(updatedHistory));
     } catch (error) {
       console.error("Error:", error);
     }
@@ -72,7 +68,6 @@ const [activeMenu, setActiveMenu] = useState("Home");
         ...prev,
         [id]: data.comments,
       }));
-      setResultSource("byId"); // Tandai bahwa sekarang pakai data byId
     } catch (error) {
       console.error("Gagal ambil berdasarkan ID:", error);
     }
@@ -98,22 +93,21 @@ const [activeMenu, setActiveMenu] = useState("Home");
     }
   };
 
-  // Tentukan hasil analisis yang dikirim berdasarkan sumber
-  const selectedResult =
-    resultSource === "byId"
-      ? Object.values(resultById).flat()
-      : resultLocal;
-
   return (
     <>
-      <Header onMenu={onMenu} setOnMenu={setOnMenu} setActiveMenu={setActiveMenu} />
+      <Header
+        onMenu={onMenu}
+        setOnMenu={setOnMenu}
+        setActiveMenu={setActiveMenu}
+      />
       <Main
         onMenu={onMenu}
         postLink={postLink}
-        ResultAnalysis={selectedResult}
+        ResultAnalysis={resultById}
         getResultById={getResultById}
         searchVideo={handleSearchVideo}
-        videoResults={videoResults}activeMenu={activeMenu}
+        videoResults={videoResults}
+        activeMenu={activeMenu}
       />
     </>
   );

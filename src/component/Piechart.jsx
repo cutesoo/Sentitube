@@ -17,10 +17,10 @@ export default class Piechart extends PureComponent {
       return acc;
     }, {});
 
-    // Ubah ke format PieChart
+   
     const chartData = Object.entries(countSentiment).map(
       ([sentiment, count]) => ({
-        name: sentiment, // gunakan sebagai label bacaan
+        name: sentiment, 
         jumlah: count,
       })
     );
@@ -33,7 +33,7 @@ export default class Piechart extends PureComponent {
               data={chartData}
               cx="50%"
               cy="50%"
-              label={({ name }) => name}  // tampilkan nama: Positif, dll
+              label={({ name }) => name}  
               outerRadius={80}
               fill="#8884d8"
               dataKey="jumlah"

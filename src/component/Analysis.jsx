@@ -5,7 +5,6 @@ import Piechart from "./Piechart";
 import WordCloudComponent from "./WordCloudComponent";
 import PdfExport from "./PdfExport";
 
-
 export default function Analysis({ postLink, ResultAnalysis }) {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,10 +18,20 @@ export default function Analysis({ postLink, ResultAnalysis }) {
     }
   };
 
+  function extractVideoId(youtubeUrl) {
+    const match = youtubeUrl.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  const videoId = extractVideoId(url);
+  const dataArray =
+    videoId && Array.isArray(ResultAnalysis?.[videoId])
+      ? ResultAnalysis[videoId]
+      : [];
+
   // POSITIF
-  const positiveComments = ResultAnalysis.filter(
-    (item) => item.Sentiment === "positif"
-  )
+  const positiveComments = dataArray
+    .filter((item) => item.Sentiment === "positif")
     .map((item) => item.Cleaned)
     .join(" ")
     .toLowerCase()
@@ -42,9 +51,8 @@ export default function Analysis({ postLink, ResultAnalysis }) {
   }));
 
   // NEGATIF
-  const negativeComments = ResultAnalysis.filter(
-    (item) => item.Sentiment === "negatif"
-  )
+  const negativeComments = dataArray
+    .filter((item) => item.Sentiment === "negatif")
     .map((item) => item.Cleaned)
     .join(" ")
     .toLowerCase()
@@ -64,9 +72,8 @@ export default function Analysis({ postLink, ResultAnalysis }) {
   }));
 
   // NETRAL
-  const netralComments = ResultAnalysis.filter(
-    (item) => item.Sentiment === "netral"
-  )
+  const netralComments = dataArray
+    .filter((item) => item.Sentiment === "netral")
     .map((item) => item.Cleaned)
     .join(" ")
     .toLowerCase()
@@ -102,12 +109,12 @@ export default function Analysis({ postLink, ResultAnalysis }) {
         </button>
       </form>
 
-      {!loading && ResultAnalysis && ResultAnalysis.length > 0 && (
+      {!loading && dataArray.length > 0 ? (
         <div>
           <div className="daftar-komentar">
             <p>Daftar Komentar</p>
             <div className="kotak-komentar scroll">
-              <SentimentList data={ResultAnalysis} />
+              <SentimentList data={dataArray} />
             </div>
           </div>
 
@@ -116,14 +123,14 @@ export default function Analysis({ postLink, ResultAnalysis }) {
             <span>
               <p>Grafik Hasil Analisis</p>
               <div className="kotak">
-                <Barchart data={ResultAnalysis} />
+                <Barchart data={dataArray} />
               </div>
             </span>
 
             <span>
               <p>Summary Analysis</p>
               <div className="kotak">
-                <Piechart data={ResultAnalysis} />
+                <Piechart data={dataArray} />
               </div>
             </span>
           </div>
@@ -134,38 +141,30 @@ export default function Analysis({ postLink, ResultAnalysis }) {
               <div>
                 <p>Positif</p>
                 <div className="isi">
-                  <WordCloudComponent
-                    className="wordscloud"
-                    words={positiveWords}
-                  />
+                  <WordCloudComponent words={positiveWords} />
                 </div>
               </div>
               <div>
                 <p>Negatif</p>
                 <div className="isi">
-                  <WordCloudComponent
-                    className="wordscloud"
-                    words={negativeWords}
-                  />
+                  <WordCloudComponent words={negativeWords} />
                 </div>
               </div>
               <div>
                 <p>Netral</p>
                 <div className="isi">
-                  <WordCloudComponent
-                    className="wordscloud"
-                    words={netralWords}
-                  />
+                  <WordCloudComponent words={netralWords} />
                 </div>
               </div>
-              {/* <button className="button-download-pdf">Download PDF</button> */}
               <PdfExport
-                analyzedComments={ResultAnalysis}
+                analyzedComments={dataArray}
                 wordcloudImageURL="/wordcloud-example.png"
               />
             </div>
           </div>
         </div>
+      ) : (
+        !loading && <p>Belum ada data yang bisa ditampilkan.</p>
       )}
     </div>
   );

@@ -28,7 +28,8 @@ export default function Main({
 
       <div className="right">
         {activeMenu === "Home" && (
-          <Home searchVideo={searchVideo} videoResults={videoResults}  postLink={postLink} ResultAnalysis={ResultAnalysis} getResultById={getResultById} />
+          <Home searchVideo={searchVideo} videoResults={videoResults}  postLink={postLink} ResultAnalysis={ResultAnalysis} getResultById={getResultById}
+        />
         )}
         {activeMenu === "Analysis" && (
           <Analysis postLink={postLink} ResultAnalysis={ResultAnalysis} />

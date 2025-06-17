@@ -2,6 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import SentimentList from "./SentimentList";
 import Barchart from "./Barchart";
 import Piechart from "./Piechart";
+import WordCloudComponent from "./WordCloudComponent";
+import PdfExport from "./PdfExport";
 
 export default function Home({
   searchVideo,
@@ -12,10 +14,9 @@ export default function Home({
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedVideoId, setSelectedVideoId] = useState(null);
   const [analyzingId, setAnalyzingId] = useState(null);
-  const analysisRef = useRef(null); // <-- ref untuk scroll otomatis
+  const analysisRef = useRef(null);
 
   useEffect(() => {
-    // Scroll ke bawah saat hasil analisis muncul
     if (selectedVideoId && ResultAnalysis?.[selectedVideoId] && !analyzingId) {
       analysisRef.current?.scrollIntoView({ behavior: "smooth" });
     }
@@ -42,6 +43,32 @@ export default function Home({
       setAnalyzingId(null);
     }
   };
+
+  const comments = ResultAnalysis?.[selectedVideoId] || [];
+
+  // WordCloud data (Positif, Negatif, Netral)
+  const generateWordFreq = (sentiment) => {
+    const words = comments
+      .filter((item) => item.Sentiment === sentiment)
+      .map((item) => item.Cleaned)
+      .join(" ")
+      .toLowerCase()
+      .replace(/[^\w\s]/g, "")
+      .split(/\s+/);
+
+    const freq = {};
+    words.forEach((word) => {
+      if (word.length > 1) {
+        freq[word] = (freq[word] || 0) + 1;
+      }
+    });
+
+    return Object.entries(freq).map(([text, value]) => ({ text, value }));
+  };
+
+  const positiveWords = generateWordFreq("positif");
+  const negativeWords = generateWordFreq("negatif");
+  const netralWords = generateWordFreq("netral");
 
   return (
     <div className="welcome">
@@ -80,11 +107,9 @@ export default function Home({
                 <p>{video.title}</p>
                 <p>{video.channel_title}</p>
                 <p>{video.published_at}</p>
-
                 <button onClick={() => handleAnalyze(video.video_id)}>
                   Analisis
                 </button>
-
                 {selectedVideoId === video.video_id &&
                   analyzingId === video.video_id && (
                     <div className="loading">
@@ -97,33 +122,31 @@ export default function Home({
         )}
       </div>
 
-      {/* Bagian hasil analisis tampil di bawah semua video */}
       {selectedVideoId && !analyzingId && ResultAnalysis?.[selectedVideoId] && (
         <div ref={analysisRef} className="hasil-analisis-wrapper">
           <div className="daftar-komentar">
             <p>Daftar Komentar</p>
             <div className="kotak-komentar scroll">
-              <SentimentList data={ResultAnalysis[selectedVideoId]} />
+              <SentimentList data={comments} />
             </div>
           </div>
 
           <div className="hasil-analisis">
             <h1>Hasil Analisis Video</h1>
             <div className="container-hasil">
-              <div>
+              <span>
                 <p>Grafik Hasil Analisis</p>
                 <div className="kotak">
-                  <Barchart data={ResultAnalysis[selectedVideoId]} />
+                  <Barchart data={comments} />
                 </div>
-                <button className="button-download-pdf">Download PDF</button>
-              </div>
-              <div>
+              </span>
+
+              <span>
                 <p>Summary Analysis</p>
                 <div className="kotak">
-                  <Piechart data={ResultAnalysis[selectedVideoId]} />
+                  <Piechart data={comments} />
                 </div>
-                <button className="button-download-csv">Download CSV</button>
-              </div>
+              </span>
             </div>
           </div>
 
@@ -132,28 +155,29 @@ export default function Home({
             <div className="wordcloud-sentiment">
               <div>
                 <p>Positif</p>
-                <WordCloudFromComments
-                  comments={ResultAnalysis[selectedVideoId].comments.filter(
-                    (c) => c.Sentiment === "positif"
-                  )}
-                />
+                <div className="isi">
+                  <WordCloudComponent words={positiveWords} />
+                </div>
               </div>
               <div>
                 <p>Negatif</p>
-                <WordCloudFromComments
-                  comments={ResultAnalysis[selectedVideoId].comments.filter(
-                    (c) => c.Sentiment === "negatif"
-                  )}
-                />
+                <div className="isi">
+                  <WordCloudComponent words={negativeWords} />
+                </div>
               </div>
               <div>
                 <p>Netral</p>
-                <WordCloudFromComments
-                  comments={ResultAnalysis[selectedVideoId].comments.filter(
-                    (c) => c.Sentiment === "netral"
-                  )}
-                />
+                <div className="isi">
+                  <WordCloudComponent words={netralWords} />
+                </div>
               </div>
+              <span className="download-pdf-container">
+                <PdfExport
+                  analyzedComments={comments}
+                  wordcloudImageURL="/wordcloud-example.png"
+                  className="download-pdf-button-home"
+                />
+              </span>
             </div>
           </div>
         </div>

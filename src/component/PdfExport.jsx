@@ -17,20 +17,20 @@ const PdfExport = ({ analyzedComments }) => {
     html2canvas(input, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
 
-      const pdfWidth = 210; // A4 width in mm
+      const pdfWidth = 210; 
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       const pdf = new jsPDF({
         orientation: "p",
         unit: "mm",
-        format: [pdfWidth, pdfHeight], // custom height
+        format: [pdfWidth, pdfHeight], 
       });
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("grafik-analisis-sentimen.pdf");
       setShowPdfView(false);
     });
-  }, 1000); // beri waktu render
+  }, 3000); 
 };
 
 
