@@ -2,7 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const ML_API_BASE_URL = 'https://62ea-157-10-185-252.ngrok-free.app'; 
+const ML_API_BASE_URL = 'https://sentitube-yt-api-af7bd4046ea2.herokuapp.com'; 
 
 export default defineConfig({
   plugins: [react()],
