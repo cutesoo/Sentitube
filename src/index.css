@@ -189,7 +189,7 @@ input:focus {
   /* margin-bottom: 0px;
   /* border: 1px solid #ddd; */
   /* padding: 1rem; */
-  /* padding-bottom: 0px; */ */
+  /* padding-bottom: 0px; */
 }
 
 .kotak-komentar {
@@ -493,15 +493,7 @@ wordscloud{
   border: #161414 1px solid;
 } */
 
-isi {
-  /* flex-direction: column; */
-  /* border: yellowgreen 1px solid; */
-  /* flex-wrap: wrap; */
-  /* width: 356px; */
-  /* height: 100px;
-  margin-top: 5px;
-  margin-bottom: 50px; */
-}
+
 
 /* Container utama */
 .word-cloud {
